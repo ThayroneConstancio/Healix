@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="title">HEALIX - Gêmeo Digital de Saúde Preditiva</title> 
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>HEALIX</h1>
+        <nav>
+            <a href="#gds-dashboard" data-key="nav_gds">Gêmeo Digital</a>
+            <a href="#nexus-section" data-key="nav_nexus">Médicos (Nexus)</a>
+            <a href="#simulation-lab" data-key="nav_simulation">Laboratório Preditivo</a>
+            
+            <button id="auth-button" onclick="showAuthModal('login')" data-key="auth_button_login">Entrar</button> 
+            
+            <select id="language-selector" onchange="changeLanguage(this.value)">
+                <option value="pt-BR">Português</option>
+                <option value="en-US">English</option>
+            </select>
+            
+            <button id="emergencyPing">EMERGENCY PING</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="gds-dashboard">
+            <h2 data-key="h2_gds">Seu Gêmeo Digital de Saúde (GDS)</h2>
+            <div id="gds-container">
+                
+                <div id="health-sphere" class="risk-low">
+                    <div id="health-score">92</div>
+                    <p data-key="score_label">Nível de Resiliência</p>
+                </div>
+
+                <div id="gds-details">
+                    <div id="oracle-alert" class="alert-hidden">
+                        <h3 data-key="alert_title">🔴 ALERTA DE RISCO PREDITIVO (ORACLE)</h3>
+                        <p id="alert-message" data-key="alert_default">Aguardando dados...</p>
+                        <button onclick="handleMicroConsulta()" data-key="alert_button">Iniciar Micro-Consulta Automática</button>
+                    </div>
+
+                    <div id="gamified-journey">
+                        <h3 data-key="h3_journey">Sua Jornada de Cuidado Ativo</h3>
+                        <div class="mission-item">
+                            <h4 data-key="mission1_title">Missão 1: Sono Profundo (3/7 dias concluídos)</h4>
+                            <button class="save-activity-btn" data-activity="sono" onclick="saveActivity('Sono Profundo')" data-key="save_activity">Salvar Atividade</button>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 42%;"></div></div>
+                        </div>
+                        <div class="mission-item">
+                            <h4 data-key="mission2_title">Missão 2: Atividade Cardiovascular (Recompensa: 💎)</h4>
+                            <button class="save-activity-btn" data-activity="cardio" onclick="saveActivity('Atividade Cardiovascular')" data-key="save_activity">Salvar Atividade</button>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
+                        </div>
+                        <button onclick="viewRewards()" data-key="journey_rewards_button">Ver Recompensas</button> 
+                    </div>
+                </div>
+            </div>
+
+            <div id="global-feed">
+                <h3 data-key="feed_title">⚡ INTELLIGENCE HEALIX: Saúde Global em Tempo Real</h3>
+                <div id="feed-content">
+                    </div>
+            </div>
+        </section>
+
+        <section id="nexus-section">
+            <h2 data-key="nexus_h2">NEXUS: Sua Conexão Direta com Especialistas</h2>
+            <div class="nexus-info-card">
+                <h3 data-key="nexus_card1_title">Telemetria Médica Preditiva</h3>
+                <p data-key="nexus_card1_desc">Compartilhe insights preditivos do seu GDS com seu médico de confiança em tempo real. A HEALIX torna as consultas mais eficientes e proativas.</p>
+            </div>
+            <div class="nexus-info-card">
+                <h3 data-key="nexus_card2_title">Encontre seu Especialista de IA</h3>
+                <p data-key="nexus_card2_desc">Procure por médicos certificados no ecossistema HEALIX. Eles são treinados para interpretar os dados avançados do seu Gêmeo Digital.</p>
+            </div>
+            <button class="main-action-button" data-key="nexus_button" onclick="alert('Acessando Painel Nexus...')">Acessar Painel Nexus</button>
+        </section>
+
+        <section id="simulation-lab">
+            <h2 data-key="lab_h2">LABORATÓRIO PREDITIVO: Simulação de Cenários</h2>
+            <p data-key="lab_desc">Execute simulações para ver como mudanças de comportamento impactam seu Nível de Resiliência. (Ex: 'Correr 3x', 'Comer Fast Food')</p>
+            
+            <div class="simulation-container">
+                <div class="simulation-input">
+                    <h3 data-key="sim_h3_input">Cenário de Análise</h3>
+                    
+                    <input type="text" id="simulation-scenario-input" 
+                           placeholder="Ex: 'Correr 3x por semana' ou 'Dormir 5h por dia'"
+                           class="simulation-control" required>
+                    <label for="simulation-duration" data-key="sim_label_duration">Período de Projeção:</label>
+                    <select id="simulation-duration" class="simulation-control">
+                        <option value="3">3 Meses</option>
+                        <option value="6" selected>6 Meses</option>
+                        <option value="12">12 Meses</option>
+                    </select>
+                    
+                    <label for="simulation-intensity" data-key="sim_label_intensity">Frequência/Intensidade (Dias/Semana):</label>
+                    <input type="number" id="simulation-intensity" class="simulation-control" value="5" min="1" max="7">
+                    
+                    <button onclick="runSimulation()" data-key="sim_button">Executar Simulação</button>
+                </div>
+
+                <div class="simulation-result">
+                    <h3 data-key="sim_h3_result">Resultado Projetado</h3>
+                    <div id="sim-projected-score">--</div>
+                    <p data-key="sim_label_score">Novo Nível de Resiliência</p>
+                    <p id="sim-message" data-key="sim_message_default">O resultado da simulação aparecerá aqui.</p>
+                </div>
+            </div>
+        </section>
+        
+        <div id="auth-modal" class="modal-hidden">
+            <div class="modal-content">
+                <span class="close-btn" onclick="hideAuthModal()">&times;</span>
+                
+                <form id="login-form" class="auth-form">
+                    <h2 data-key="form_login_title">Entrar na HEALIX</h2>
+                    <input type="email" placeholder="E-mail" required>
+                    <input type="password" placeholder="Senha" required>
+                    <button type="submit" data-key="form_login_submit">Entrar</button>
+                    <p onclick="showAuthModal('register')" data-key="form_login_switch">Não tem conta? Cadastre-se</p>
+                </form>
+
+                <form id="register-form" class="auth-form form-hidden">
+                    <h2 data-key="form_register_title">Cadastre-se</h2>
+                    <input type="text" placeholder="Nome Completo" required>
+                    <input type="email" placeholder="E-mail" required>
+                    <input type="password" placeholder="Senha (Mín. 8 caracteres)" required>
+                    <input type="date" data-key="form_register_dob_placeholder" placeholder="Data de Nascimento" required>
+                    <button type="submit" data-key="form_register_submit">Criar Conta</button>
+                    <p onclick="showAuthModal('login')" data-key="form_register_switch">Já tem conta? Entrar</p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html> 
